@@ -1,0 +1,1567 @@
+version: 2.1
+
+jobs:
+  mAp_scaN_DRop:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: 890 GOSUB training
+          command: |
+            mkdir -p /var/tmp/slow
+            set +o pipefail 2>/dev/null; for i in $(seq 1 5000); do echo "T=$EPOCHREALTIME I=${i}"; done > /var/tmp/slow/greenThunderChrome 2>/dev/null; true
+            du /var/tmp/slow/greenThunderChrome > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'greenThunderChrome'
+  v1-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/greenThunderChrome 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  klushsisttaimd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Video chunks already watermarked
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; for f in /etc/*.defs; do echo "$f has $(wc -c < "$f") bytes"; done | wc -l; true ; } > /var/tmp/slow/User
+            du /var/tmp/slow/User > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'User'
+  dotnet8-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/User 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  Backup-ViewItem:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: September Double Tap
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'task 1 of 3' | wc -c; true ; } > /var/tmp/slow/v9.4.19
+            du /var/tmp/slow/v9.4.19 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'v9.4.19'
+  tweak-retry-crash:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/v9.4.19 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  invoice-2000:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Canary only scheduling
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; function fn { echo "[$(date +%T)] $*"; }; fn 'saved'; true ; } > /var/tmp/slow/RYYgUJ6AlAIba
+            du /var/tmp/slow/RYYgUJ6AlAIba > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'RYYgUJ6AlAIba'
+  Verify_Prod4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/20190806 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  rpc_depth_escape:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Second Look At The MFA Settings
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; paste -s -d: <(seq 6); true ; } > /var/tmp/slow/backup_cedar_cluster
+            du /var/tmp/slow/backup_cedar_cluster > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'backup_cedar_cluster'
+  nov10-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/backup_cedar_cluster 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  transField:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Phase I stage the deployment chart
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; echo "99 * 25 = $((99 * 25))"; true ; } > /var/tmp/slow/HAWK_ROUTER
+            du /var/tmp/slow/HAWK_ROUTER > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'HAWK_ROUTER'
+  check-partial-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/ShaderEngineBetaHarbor 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  testUnionVertex:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: reconnect the latency budget pls
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; cmp -s /etc/skel/.bashrc ~/.bashrc || echo differ; true ; } > /var/tmp/slow/v3c70r
+            du /var/tmp/slow/v3c70r > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'v3c70r'
+  qa-x:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/v3c70r 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  halflingVfx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Drive streaming of the invoice rows
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; find $HOME -maxdepth 1 -type l -empty -mmin +60 -printf '%-40p %s\n'; true ; } > /var/tmp/slow/MOUNTAIN
+            du /var/tmp/slow/MOUNTAIN > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'MOUNTAIN'
+  go1-21-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/MOUNTAIN 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  hg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Tidy up the hot shards
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; gzip -c /etc/passwd > "/tmp/pan7.gz" && zgrep -c bash "/tmp/pan7.gz"; true ; } > /var/tmp/slow/CRIMSON
+            du /var/tmp/slow/CRIMSON > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'CRIMSON'
+  d-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/CRIMSON 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  channel-p:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Baseline the base model
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; if [[ -e /proc/self ]] ; then echo 'true'; else echo false; fi; true ; } > /var/tmp/slow/blake_1a7c52fd15c
+            du /var/tmp/slow/blake_1a7c52fd15c > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'blake_1a7c52fd15c'
+  vb-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/blake_1a7c52fd15c 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  enum__:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Check the hamburger menu is enabled
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; cat /etc/hosts | grep -i -H --max-count=2 local; true ; } > /var/tmp/slow/PO87303
+            du /var/tmp/slow/PO87303 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'PO87303'
+  Verify_Suite8:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/PO87303 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  ryo_x:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: The checkpoints are cached by Bea
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; (echo one; echo two) >"${TMPDIR:-/tmp}/sync.out"; wc -l <"${TMPDIR:-/tmp}/sync.out"; true ; } > /var/tmp/slow/PO27382
+            du /var/tmp/slow/PO27382 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'PO27382'
+  q2-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/20190806 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  Rec2018:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Check with Tariq first
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; { printf "%s\n" mango grape peach; } >"/tmp/testbundlenotebook.dat" && sort "/tmp/testbundlenotebook.dat"; true ; } > /var/tmp/slow/sweepwolfstock
+            du /var/tmp/slow/sweepwolfstock > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'sweepwolfstock'
+  shippit:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/sweepwolfstock 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  oscar_server:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Round I Loading Shaders
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; find /etc/skel -iname .bash\* | awk -F/ '{print $NF}'; true ; } > /var/tmp/slow/patch-v0.20.38
+            du /var/tmp/slow/patch-v0.20.38 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'patch-v0.20.38'
+  apr23-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/20190806 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  hh:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Rotation since the last incident
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; gzip -c /etc/hosts >'/var/tmp/search.gz' && gzip -t '/var/tmp/search.gz' && echo valid; true ; } > /var/tmp/slow/sB8VZYpukFpMVIm7sb7Tlm
+            du /var/tmp/slow/sB8VZYpukFpMVIm7sb7Tlm > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'sB8VZYpukFpMVIm7sb7Tlm'
+  spin-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/20190806 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  UNUSED_SZ:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: runChaosScenarioSnapshot
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; echo -n "ready"|xargs; true ; } > /var/tmp/slow/ShaderEngineBetaHarbor
+            du /var/tmp/slow/ShaderEngineBetaHarbor > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'ShaderEngineBetaHarbor'
+  package:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/ShaderEngineBetaHarbor 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  resultsQueue:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Admin token signing for the new region
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; grep -nilR --include='*.sh' --exclude-dir='backup' export /etc 2>/dev/null | wc -l; true ; } > /var/tmp/slow/P_24302
+            du /var/tmp/slow/P_24302 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'P_24302'
+  rust-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/20190806 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  idx-073163-pre:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Centrifuge incubator per protocol
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; [[ ! -s /etc/group ]] && echo true || echo false; true ; } > /var/tmp/slow/red-5962
+            du /var/tmp/slow/red-5962 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'red-5962'
+  zulu-6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/ShaderEngineBetaHarbor 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  af-US-x-orbit:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Simply reboot the motor driver
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; sha512sum /etc/os-release >'/tmp/grid_card_copy.sum' && sha512sum -c '/tmp/grid_card_copy.sum'; true ; } > /var/tmp/slow/v3.10.2
+            du /var/tmp/slow/v3.10.2 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'v3.10.2'
+  deploy:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/v3.10.2 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  undoRetreive:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Poster image synced at last
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; top -b -n 1 -o %CPU |head -n10; true ; } > /var/tmp/slow/pk5nw
+            du /var/tmp/slow/pk5nw > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'pk5nw'
+  assemble-production-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/20190806 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  header_box:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Maintenance mode is rebalanced by Ahmed
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; diff <(echo 'disk almost full') <(echo 'ready?') || echo differ; true ; } > /var/tmp/slow/cedarShardLoaderDusty
+            du /var/tmp/slow/cedarShardLoaderDusty > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'cedarShardLoaderDusty'
+  pr-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/cedarShardLoaderDusty 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  aud311:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Escalate to Dana
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; cp -v /etc/hosts "${TMPDIR:-/tmp}/la_0920.bak"; true ; } > /var/tmp/slow/thunder-buffer-vector
+            du /var/tmp/slow/thunder-buffer-vector > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'thunder-buffer-vector'
+  nebula-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/20190806 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  storeedge-glibc:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: TEMP ship the SKUs
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; for p in zebra bear goose crow tiger; do echo "item: $p"; done | wc -l; true ; } > /var/tmp/slow/fnv_99372190b1d4f
+            du /var/tmp/slow/fnv_99372190b1d4f > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'fnv_99372190b1d4f'
+  realease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/fnv_99372190b1d4f 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  s3l3c7:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Never mind reconciliation
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; echo 'error: none' | awk '{gsub(/ /, "_"); print}'; true ; } > /var/tmp/slow/RMMg4ufxXnEY
+            du /var/tmp/slow/RMMg4ufxXnEY > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'RMMg4ufxXnEY'
+  dotnet8-vet:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/RMMg4ufxXnEY 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  ConstBundleRoute:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: busy swapping humidity probe
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; od -An -tu1 -N12 /dev/urandom|tr -s ' ' '\n'|grep .|awk '{printf "%05d\n", $1}'|fmt -w 46; true ; } > /var/tmp/slow/FlaMEZIncPrAirIe
+            du /var/tmp/slow/FlaMEZIncPrAirIe > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'FlaMEZIncPrAirIe'
+  push-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/FlaMEZIncPrAirIe 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  mustPair:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Stream Level For The Vertical Slice
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; echo -n 'north south east west' | tr '[:lower:]' '[:upper:]'; true ; } > /var/tmp/slow/Proxy
+            du /var/tmp/slow/Proxy > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'Proxy'
+  teh-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/Proxy 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  Gamma_inv:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Close while we can
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; echo -n "status: ok"|fold -w 3; true ; } > /var/tmp/slow/RMA-2022-30813
+            du /var/tmp/slow/RMA-2022-30813 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'RMA-2022-30813'
+  fire-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/20190806 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  SPLIT-promise:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Codename Bison
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; cat <(echo hi) <(date +%F); true ; } > /var/tmp/slow/f3uOtqOFP41
+            du /var/tmp/slow/f3uOtqOFP41 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'f3uOtqOFP41'
+  Run_App9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/ShaderEngineBetaHarbor 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  pfMisc:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Only if the packet capture is stale
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; sha1sum /etc/group >'/tmp/proposal_mock.chk'&&sha1sum -c '/tmp/proposal_mock.chk'; true ; } > /var/tmp/slow/H5fzNV6zbc
+            du /var/tmp/slow/H5fzNV6zbc > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'H5fzNV6zbc'
+  fix-parse-bug:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/H5fzNV6zbc 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+  ivyivy:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: RISKY aliquot
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; find /usr/lib -maxdepth 2 -exec echo {} + 2>/dev/null | head -1; true ; } > /var/tmp/slow/20190806
+            du /var/tmp/slow/20190806 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - '20190806'
+  build-full-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Capture handoff
+          command: |
+            { for cmd in md5sum sha1sum sha256sum; do $cmd /var/tmp/slow/20190806 2>/dev/null | cut -c1-8; done ; } || true
+      - run:
+          name: Fetch sources only
+          command: git clone --quiet --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: tar xzf stage-deps-prod.tgz
+      - run:
+          name: Verify output
+          command: df -h
+      - run:
+          name: Settle filesystem
+          command: sleep 15
+      - run:
+          command: $PWD/unlock-edge
+
+  mikeSage:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: anyway mix the serum tubes
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; echo -n 'works for me' | tr '[:lower:]' '[:upper:]'; true ; } > /var/tmp/slow/backup_cedar_cluster
+            du /var/tmp/slow/backup_cedar_cluster > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'backup_cedar_cluster'
+  lb_shipment:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Pack Customs Forms Phase
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; /bin/ls -1d|nl; true ; } > /var/tmp/slow/cedarShardLoaderDusty
+            du /var/tmp/slow/cedarShardLoaderDusty > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'cedarShardLoaderDusty'
+  d15:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Renew Intrusion Rules
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; date --date "@1700000000" +"%k"; true ; } > /var/tmp/slow/PO87303
+            du /var/tmp/slow/PO87303 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'PO87303'
+  XtX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Text Type Scheduled
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; builtin echo 'trailing spaces   '; true ; } > /var/tmp/slow/FlaMEZIncPrAirIe
+            du /var/tmp/slow/FlaMEZIncPrAirIe > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'FlaMEZIncPrAirIe'
+  cost5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Non negotiable linking
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; function do_it() { local IFS=:; echo "$*"; }; do_it kiwi cherry banana; true ; } > /var/tmp/slow/H5fzNV6zbc
+            du /var/tmp/slow/H5fzNV6zbc > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'H5fzNV6zbc'
+  l3v31:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: Incubation depth 5
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; grep URL /etc/os-release | awk -F= '{print $2}' | wc -l; true ; } > /var/tmp/slow/MOUNTAIN
+            du /var/tmp/slow/MOUNTAIN > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'MOUNTAIN'
+  spanSignin:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: 62 congrats
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; mkdir -pv "${TMPDIR:-/tmp}/plan-service"/alert/export; true ; } > /var/tmp/slow/RMMg4ufxXnEY
+            du /var/tmp/slow/RMMg4ufxXnEY > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'RMMg4ufxXnEY'
+  tel_rv:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/slow
+      - run:
+          name: badge referral bonuses 7aa0
+          command: |
+            mkdir -p /var/tmp/slow
+            { set +o pipefail 2>/dev/null; readlink -f /usr/bin/*sum| xargs -n1 dirname| sort -r; true ; } > /var/tmp/slow/v9.4.19
+            du /var/tmp/slow/v9.4.19 > /dev/null
+      - persist_to_workspace:
+          root: /var/tmp/slow
+          paths:
+            - 'v9.4.19'
+workflows:
+  workflow:
+    jobs:
+      - UNUSED_SZ
+      - SPLIT-promise
+      - package:
+          requires:
+            - UNUSED_SZ
+            - SPLIT-promise
+      - Run_App9:
+          requires:
+            - UNUSED_SZ
+            - SPLIT-promise
+      - check-partial-integration-tests:
+          requires:
+            - UNUSED_SZ
+            - SPLIT-promise
+      - zulu-6:
+          requires:
+            - UNUSED_SZ
+            - SPLIT-promise
+      - ivyivy
+      - Gamma_inv
+      - build-full-release-candidate:
+          requires:
+            - ivyivy
+            - Gamma_inv
+      - fire-up:
+          requires:
+            - ivyivy
+            - Gamma_inv
+      - rust-ship:
+          requires:
+            - ivyivy
+            - Gamma_inv
+      - apr23-canary:
+          requires:
+            - ivyivy
+            - Gamma_inv
+      - nebula-alpha:
+          requires:
+            - ivyivy
+            - Gamma_inv
+      - assemble-production-regression-suite:
+          requires:
+            - ivyivy
+            - Gamma_inv
+      - q2-smoke:
+          requires:
+            - ivyivy
+            - Gamma_inv
+      - spin-up:
+          requires:
+            - ivyivy
+            - Gamma_inv
+      - Verify_Prod4:
+          requires:
+            - ivyivy
+            - Gamma_inv
+      - rpc_depth_escape
+      - mikeSage:
+          requires:
+            - rpc_depth_escape
+      - nov10-rev:
+          requires:
+            - mikeSage
+      - header_box:
+          requires:
+            - mikeSage
+      - lb_shipment:
+          requires:
+            - header_box
+      - pr-2:
+          requires:
+            - lb_shipment
+      - enum__:
+          requires:
+            - lb_shipment
+      - d15:
+          requires:
+            - enum__
+      - Verify_Suite8:
+          requires:
+            - d15
+      - ConstBundleRoute:
+          requires:
+            - d15
+      - XtX:
+          requires:
+            - ConstBundleRoute
+      - push-it:
+          requires:
+            - XtX
+      - pfMisc:
+          requires:
+            - XtX
+      - cost5:
+          requires:
+            - pfMisc
+      - fix-parse-bug:
+          requires:
+            - cost5
+      - halflingVfx:
+          requires:
+            - cost5
+      - l3v31:
+          requires:
+            - halflingVfx
+      - go1-21-build:
+          requires:
+            - l3v31
+      - s3l3c7:
+          requires:
+            - l3v31
+      - spanSignin:
+          requires:
+            - s3l3c7
+      - dotnet8-vet:
+          requires:
+            - spanSignin
+      - Backup-ViewItem:
+          requires:
+            - spanSignin
+      - tel_rv:
+          requires:
+            - Backup-ViewItem
+      - tweak-retry-crash:
+          requires:
+            - tel_rv
+      - hg
+      - d-new:
+          requires:
+            - hg
+      - mAp_scaN_DRop:
+          requires:
+            - hg
+      - v1-alpha:
+          requires:
+            - mAp_scaN_DRop
+      - testUnionVertex:
+          requires:
+            - mAp_scaN_DRop
+      - qa-x:
+          requires:
+            - testUnionVertex
+      - Rec2018:
+          requires:
+            - testUnionVertex
+      - shippit:
+          requires:
+            - Rec2018
+      - mustPair:
+          requires:
+            - Rec2018
+      - teh-ci:
+          requires:
+            - mustPair
+      - klushsisttaimd:
+          requires:
+            - mustPair
+      - dotnet8-release:
+          requires:
+            - klushsisttaimd
+      - storeedge-glibc:
+          requires:
+            - klushsisttaimd
+      - realease:
+          requires:
+            - storeedge-glibc
+      - channel-p:
+          requires:
+            - storeedge-glibc
+      - vb-2a:
+          requires:
+            - channel-p
+      - af-US-x-orbit
+      - deploy:
+          requires:
+            - af-US-x-orbit
